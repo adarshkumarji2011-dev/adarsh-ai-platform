@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import zlib from 'node:zlib';
 import { Router } from 'express';
 import multer from 'multer';
 import { requireAuth, safeJson } from '../auth.js';
@@ -163,7 +164,7 @@ function extractPdfText(buffer) {
     let chunk = match[1];
     let text = '';
     try {
-      text = require('node:zlib').inflateSync(Buffer.from(chunk, 'latin1')).toString('latin1');
+      text = zlib.inflateSync(Buffer.from(chunk, 'latin1')).toString('latin1');
     } catch {
       text = chunk;
     }
